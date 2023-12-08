@@ -1,4 +1,3 @@
-print ('Hello World')
 print("""
        __   __    __  .__   __.  _______                    _______. __    __       ___   ____    __    ____ .__   __. 
       |  | |  |  |  | |  \ |  | |   ____|     ___          /       ||  |  |  |     /   \  \   \  /  \  /   / |  \ |  | 
@@ -11,66 +10,102 @@ print("""
 /______/\/______/\/______/\/______/\/______/\/______/\/______/\/______/\/______/\/______/\/______/\/______/\/______/\/______/\/______/\ 
 \__::::\/\__::::\/\__::::\/\__::::\/\__::::\/\__::::\/\__::::\/\__::::\/\__::::\/\__::::\/\__::::\/\__::::\/\__::::\/\__::::\/\__::::\/
 
-                                                        [1]-PRELIMS
-                                                        [2]-MIDTERMS
-                                                        [3]-FINALS
+                                                      Shawn and Junni blabla iakw na magpaganda dito
+
+                                                        [1]-PRELIMS bisection method
+                                                        [2]-MIDTERMS secant method
+                                                        [3]-FINALS asdasfg
              ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ 
             |______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|
 """)
 
-import numpy as np
-
-def find_interval(f, x=0):
-    """
-    Try to find an interval where f changes sign.
-    """
-    if f(x) == 0:
-        return x, x
-    elif f(x) > 0:
-        while f(x) > 0:
-            x -= 1
-        return x, x + 1
-    else:
-        while f(x) < 0:
-            x += 1
-        return x - 1, x
-
-def bisection_method(f, x=0, tol=1e-4, max_iter=100):
-    """
-    f: The function for which we are trying to approximate a solution f(x)=0.
-    x: An initial guess for the interval.
-    tol: The error tolerance.
-    max_iter: Maximum number of iterations.
-    """
-    a, b = find_interval(f, x)
-    if a == b:
-        return a, 0
-    else:
-        iter_count = 0
-        while ((b - a) / 2.0 > tol) and (iter_count < max_iter):
-            c = (a + b) / 2.0
-            if f(c) == 0:
-                return c, iter_count
-            elif f(a) * f(c) < 0:
-                b = c
+def prelim():
+    import numpy as np
+    while True:
+        def find_interval(f, x=0):
+            """
+            Try to find an interval where f changes sign.
+            """
+            if f(x) == 0:
+                return x, x
+            elif f(x) > 0:
+                while f(x) > 0:
+                    x -= 1
+                return x, x + 1
             else:
-                a = c
-            iter_count += 1
-        return (a + b) / 2.0, iter_count
+                while f(x) < 0:
+                    x += 1
+                return x - 1, x
 
-# Prompt user to input the function
-expression = input("Enter the function in terms of 'x': ")
-def user_defined_function(x):
-    return eval(expression)
+        def user_defined_function(x):
+            return eval(expression)
 
-# Call the bisection method with the user-defined function
-root, iterations = bisection_method(user_defined_function)
+        def bisection_method(f, x=0, tol=1e-4, max_iter=100):
+            """
+            f: The function for which we are trying to approximate a solution f(x)=0.
+            x: An initial guess for the interval.
+            tol: The error tolerance.
+            max_iter: Maximum number of iterations.
+            """
+            a, b = find_interval(f, x)
+            if a == b:
+                return a, 0
+            else:
+                iter_count = 0
+                while ((b - a) / 2.0 > tol) and (iter_count < max_iter):
+                    c = (a + b) / 2.0
+                    if f(c) == 0:
+                        return c, iter_count
+                    elif f(a) * f(c) < 0:
+                        b = c
+                    else:
+                        a = c
+                    iter_count += 1
+                return (a + b) / 2.0, iter_count
 
-# Print the results
-print(f"The interval where the function changes sign is approximately {find_interval(user_defined_function)}")
-print(f"The root of the function is approximately {root}")
-print(f"The bisection method found the root in {iterations} iterations")
+        # Prompt user to input the function
+        expression = input("Enter the function in terms of 'x': ")
+
+        # Call the bisection method with the user-defined function
+        root, iterations = bisection_method(user_defined_function)
+
+        # Print the results
+        print(f"The interval where the function changes sign is approximately {find_interval(user_defined_function)}")
+        print(f"The root of the function is approximately {root}")
+        print(f"The bisection method found the root in {iterations} iterations")
+
+        # Ask the user if they want to continue
+        cont = input("Do you wish to continue with more example? (y/n) ")
+        if cont.lower() != 'y':
+            break  
 
 
+def midterm():
+    pass
 
+def finals():
+    pass
+
+def menu():
+    while True:
+        print("""
+        [1]-PRELIMS asdasddd iakw na din magpaganda dito
+        [2]-MIDTERMS
+        [3]-FINALS
+        [4]-EXIT
+        """)
+        choice = int(input("Enter your choice: "))
+        if choice == 1:
+            prelim()
+        elif choice == 2:
+            midterm()
+        elif choice == 3:
+            finals()
+        elif choice == 4:
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice. Please enter 1, 2, 3, or 4.")
+
+menu()
 

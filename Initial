@@ -58,14 +58,19 @@ def bisection_method(f, x=0, tol=1e-4, max_iter=100):
             iter_count += 1
         return (a + b) / 2.0, iter_count
 
-# Define the function
-def f(x):
-    return x**3 + 3*x - 5
+# Prompt user to input the function
+expression = input("Enter the function in terms of 'x': ")
+def user_defined_function(x):
+    return eval(expression)
 
-# Call the bisection method
-root, iterations = bisection_method(f)
+# Call the bisection method with the user-defined function
+root, iterations = bisection_method(user_defined_function)
 
+# Print the results
+print(f"The interval where the function changes sign is approximately {find_interval(user_defined_function)}")
 print(f"The root of the function is approximately {root}")
 print(f"The bisection method found the root in {iterations} iterations")
+
+
 
 

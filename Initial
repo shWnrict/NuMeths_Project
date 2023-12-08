@@ -18,42 +18,54 @@ print("""
             |______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|
 """)
 
-import sympy as sp
+import numpy as np
 
-def bisection_method(f, a, b, tol=1e-5, max_iter=100):
+def find_interval(f, x=0):
     """
-    f: function for which we are trying to approximate a solution f(x)=0
-    a, b: interval in which to search for a solution
-    tol: stopping criteria, terminates when |b - a| < tol
-    max_iter: maximum number of iterations
+    Try to find an interval where f changes sign.
     """
-    if f.subs(x, a)*f.subs(x, b) >= 0:
-        print("Bisection method fails.")
-        return None
-    iter_count = 0
-    while ((b - a) >= tol) and (iter_count < max_iter):
-        # Find middle point
-        c = (a + b)/2
-        # Check if middle point is root
-        if f.subs(x, c) == 0.0:
-            break
-        # Decide the side to repeat the steps
-        if f.subs(x, c)*f.subs(x, a) < 0:
-            b = c
-        else:
-            a = c
-        iter_count += 1
-    print("The value of root is : ","%.4f"%c)
-    return c
+    if f(x) == 0:
+        return x, x
+    elif f(x) > 0:
+        while f(x) > 0:
+            x -= 1
+        return x, x + 1
+    else:
+        while f(x) < 0:
+            x += 1
+        return x - 1, x
 
-# User inputs
-x = sp.symbols('x')
-f = input("Enter a function: ")
-a = float(input("Enter the start of the interval: "))
-b = float(input("Enter the end of the interval: "))
+def bisection_method(f, x=0, tol=1e-4, max_iter=100):
+    """
+    f: The function for which we are trying to approximate a solution f(x)=0.
+    x: An initial guess for the interval.
+    tol: The error tolerance.
+    max_iter: Maximum number of iterations.
+    """
+    a, b = find_interval(f, x)
+    if a == b:
+        return a, 0
+    else:
+        iter_count = 0
+        while ((b - a) / 2.0 > tol) and (iter_count < max_iter):
+            c = (a + b) / 2.0
+            if f(c) == 0:
+                return c, iter_count
+            elif f(a) * f(c) < 0:
+                b = c
+            else:
+                a = c
+            iter_count += 1
+        return (a + b) / 2.0, iter_count
 
-# Convert the user input into a usable function
-f = sp.sympify(f)
+# Define the function
+def f(x):
+    return x**3 + 3*x - 5
 
-# Call the function
-bisection_method(f, a, b)
+# Call the bisection method
+root, iterations = bisection_method(f)
+
+print(f"The root of the function is approximately {root}")
+print(f"The bisection method found the root in {iterations} iterations")
+
+

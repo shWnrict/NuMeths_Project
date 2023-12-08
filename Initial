@@ -19,65 +19,115 @@ print("""
             |______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|
 """)
 
+# Import the numpy library, which provides support for large, multi-dimensional arrays and matrices, along with mathematical functions to operate on these arrays.
+import numpy as np
+
+# Define the prelim function for solving problem using bisection method
 def prelim():
-    import numpy as np
+    print(f"""
+          The subject matter for the Prelim period is about Bisection Method.
+          Here is a recap for what bisection method is:
+
+            ▪ The bisection method is one type of incremental search method in which the interval is always divided in half. 
+            ▪ If a function changes sign over an interval, the function value at the midpoint is evaluated. 
+            ▪ The location of the root is then determined as lying at the midpoint of the subinterval within which the sign change occurs. 
+            ▪ The process is repeated to obtain refined estimates.
+            ▪ Alternatively called binary chopping, interval halving, or Bolzano’s method,
+          
+            Advantages:
+                  o Always convergent
+                  o The root bracket gets halved with each iteration-guaranteed
+          
+            Disadvantages:
+                  o Slow convergence
+                  o If one of the initial guesses is close to the root, the convergence is slower
+          
+
+
+            Now, try Bisection Method with an example!
+            Example Input: x**3 + 3*x - 5
+          """)
+    # Start an infinite loop
     while True:
-        def find_interval(f, x=0):
-            """
-            Try to find an interval where f changes sign.
-            """
-            if f(x) == 0:
-                return x, x
-            elif f(x) > 0:
-                while f(x) > 0:
-                    x -= 1
-                return x, x + 1
-            else:
-                while f(x) < 0:
-                    x += 1
-                return x - 1, x
+        try:  # Start a try block to catch and handle any errors that occur within it
+            # Define a function to find an interval where the function f changes sign
+            def find_interval(f, x=0):
+                """
+                Try to find an interval where f changes sign.
+                """
+                # If the function value at x is 0, return x, x
+                if f(x) == 0:
+                    return x, x
+                # If the function value at x is greater than 0, decrease x until the function value is no longer greater than 0
+                elif f(x) > 0:
+                    while f(x) > 0:
+                        x -= 1
+                    return x, x + 1
+                # If the function value at x is less than 0, increase x until the function value is no longer less than 0
+                else:
+                    while f(x) < 0:
+                        x += 1
+                    return x - 1, x
 
-        def user_defined_function(x):
-            return eval(expression)
+            # Define a function that evaluates the user's expression
+            def interval_expression(x):
+                return eval(expression)
 
-        def bisection_method(f, x=0, tol=1e-4, max_iter=100):
-            """
-            f: The function for which we are trying to approximate a solution f(x)=0.
-            x: An initial guess for the interval.
-            tol: The error tolerance.
-            max_iter: Maximum number of iterations.
-            """
-            a, b = find_interval(f, x)
-            if a == b:
-                return a, 0
-            else:
-                iter_count = 0
-                while ((b - a) / 2.0 > tol) and (iter_count < max_iter):
-                    c = (a + b) / 2.0
-                    if f(c) == 0:
-                        return c, iter_count
-                    elif f(a) * f(c) < 0:
-                        b = c
-                    else:
-                        a = c
-                    iter_count += 1
-                return (a + b) / 2.0, iter_count
+            # Define the bisection method for finding roots of a function
+            def bisection_method(f, x=0, tol=1e-4, max_iter=100):
+                """
+                f: The function for which we are trying to approximate a solution f(x)=0.
+                x: An initial guess for the interval.
+                tol: The error tolerance.
+                max_iter: Maximum number of iterations.
+                """
+                # Find an interval where the function changes sign
+                a, b = find_interval(f, x)
+                # If a and b are the same, return a and 0
+                if a == b:
+                    return a, 0
+                else:
+                    # Initialize the iteration counter
+                    iter_count = 0
+                    # Continue the loop until the size of the interval is less than the tolerance or the maximum number of iterations is reached
+                    while ((b - a) / 2.0 > tol) and (iter_count < max_iter):
+                        # Calculate the midpoint
+                        c = (a + b) / 2.0
+                        # If the function value at the midpoint is 0, return the midpoint and the iteration count
+                        if f(c) == 0:
+                            return c, iter_count
+                        # If the function values at a and c have different signs, set b to c
+                        elif f(a) * f(c) < 0:
+                            b = c
+                        # If the function values at a and c have the same sign, set a to c
+                        else:
+                            a = c
+                        # Increment the iteration count
+                        iter_count += 1
+                    # Return the midpoint and the iteration count
+                    return (a + b) / 2.0, iter_count
 
-        # Prompt user to input the function
-        expression = input("Enter the function in terms of 'x': ")
+            # Prompt the user to input the function
+            expression = input("Enter the function in terms of 'x': ")
 
-        # Call the bisection method with the user-defined function
-        root, iterations = bisection_method(user_defined_function)
+            # Call the bisection method with the user-defined function
+            root, iterations = bisection_method(interval_expression)
 
-        # Print the results
-        print(f"The interval where the function changes sign is approximately {find_interval(user_defined_function)}")
-        print(f"The root of the function is approximately {root}")
-        print(f"The bisection method found the root in {iterations} iterations")
+            # Print the results
+            print(f"The interval where the function changes sign is {find_interval(interval_expression)}")
+            print(f"The root of the function is approximately {root}, found in {iterations} iterations")
+            print() # newline
+
+        # If an error occurs in the try block, catch it and print an error message
+        except Exception as e:
+            print(f"An error occurred: {e}")
 
         # Ask the user if they want to continue
         cont = input("Do you wish to continue with more example? (y/n) ")
+        print() # newline
+        # If the user does not want to continue, break the loop
         if cont.lower() != 'y':
-            break  
+            break
 
 
 def midterm():

@@ -19,12 +19,10 @@ print("""
             |______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|
 """)
 
-# Import the numpy library, which provides support for large, multi-dimensional arrays and matrices, along with mathematical functions to operate on these arrays.
 import numpy as np
 
-# Define the prelim function for solving problem using bisection method
 def prelim():
-    print(f"""
+    print("""
           The subject matter for the Prelim period is about Bisection Method.
           Here is a recap for what bisection method is:
 
@@ -47,88 +45,72 @@ def prelim():
             Now, try Bisection Method with an example!
             Example Input: x**3 + 3*x - 5
           """)
-    # Start an infinite loop
+
     while True:
-        try:  # Start a try block to catch and handle any errors that occur within it
-            # Define a function to find an interval where the function f changes sign
+        try:
             def find_interval(f, x=0):
                 """
                 Try to find an interval where f changes sign.
                 """
-                # If the function value at x is 0, return x, x
                 if f(x) == 0:
                     return x, x
-                # If the function value at x is greater than 0, decrease x until the function value is no longer greater than 0
                 elif f(x) > 0:
                     while f(x) > 0:
                         x -= 1
                     return x, x + 1
-                # If the function value at x is less than 0, increase x until the function value is no longer less than 0
                 else:
                     while f(x) < 0:
                         x += 1
                     return x - 1, x
 
-            # Define a function that evaluates the user's expression
             def interval_expression(x):
                 return eval(expression)
 
-            # Define the bisection method for finding roots of a function
-            def bisection_method(f, x=0, tol=1e-4, max_iter=100):
-                """
-                f: The function for which we are trying to approximate a solution f(x)=0.
-                x: An initial guess for the interval.
-                tol: The error tolerance.
-                max_iter: Maximum number of iterations.
-                """
-                # Find an interval where the function changes sign
+            def bisection_method(f, x=0, tol=0.01, max_iter=100):
                 a, b = find_interval(f, x)
-                # If a and b are the same, return a and 0
                 if a == b:
-                    return a, 0
+                    return a, 0, a, b, f(a), f(b), 0, 0, 0
                 else:
-                    # Initialize the iteration counter
-                    iter_count = 0
-                    # Continue the loop until the size of the interval is less than the tolerance or the maximum number of iterations is reached
-                    while ((b - a) / 2.0 > tol) and (iter_count < max_iter):
-                        # Calculate the midpoint
+                    iter_count = 1
+                    while (abs(b - a) > tol) and (iter_count < max_iter):
                         c = (a + b) / 2.0
-                        # If the function value at the midpoint is 0, return the midpoint and the iteration count
-                        if f(c) == 0:
-                            return c, iter_count
-                        # If the function values at a and c have different signs, set b to c
-                        elif f(a) * f(c) < 0:
+                        f_a = f(a)
+                        f_b = f(b)
+                        f_c = f(c)
+
+                        print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format(
+                            iter_count, round(a, 4), round(b, 4), round(f_a, 4),
+                            round(f_b, 4), round(c, 4), round(f_c, 4), round(b - a, 4)))
+
+                        if f_a * f_c < 0:
                             b = c
-                        # If the function values at a and c have the same sign, set a to c
                         else:
                             a = c
-                        # Increment the iteration count
+
                         iter_count += 1
-                    # Return the midpoint and the iteration count
-                    return (a + b) / 2.0, iter_count
 
-            # Prompt the user to input the function
+                    return (a + b) / 2.0, iter_count, a, b, f(a), f(b), c, f_c, b - a
+
             expression = input("Enter the function in terms of 'x': ")
+            print(f"The equation is {expression}")
+            print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format("Iteration", "a", "b", "f(a)", "f(b)", "c=(a+b)/2", "f(c)", "b-a"))
 
-            # Call the bisection method with the user-defined function
-            root, iterations = bisection_method(interval_expression)
-
-            # Print the results
+            root, iterations, a, b, fa, fb, c, fc, ba = bisection_method(interval_expression)
+            print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format(
+                            iterations, round(a, 4), round(b, 4), round(interval_expression(a), 4),
+                            round(interval_expression(b), 4), round(c, 4), round(interval_expression(root), 4), round(b - a, 4)))
             print(f"The interval where the function changes sign is {find_interval(interval_expression)}")
             print(f"The root of the function is approximately {root}, found in {iterations} iterations")
-            print() # newline
+            print()
 
-        # If an error occurs in the try block, catch it and print an error message
+
         except Exception as e:
             print(f"An error occurred: {e}")
 
-        # Ask the user if they want to continue
-        cont = input("Do you wish to continue with more example? (y/n) ")
-        print() # newline
-        # If the user does not want to continue, break the loop
+        cont = input("Do you wish to continue with more examples? (y/n) ")
+        print()
         if cont.lower() != 'y':
             break
-
 
 def midterm():
     pass

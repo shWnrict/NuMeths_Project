@@ -94,11 +94,10 @@ def prelim():
             expression = input("Enter the function in terms of 'x': ")
             print(f"The equation is {expression}")
             print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format("Iteration", "a", "b", "f(a)", "f(b)", "c=(a+b)/2", "f(c)", "b-a"))
-
             root, iterations, a, b, fa, fb, c, fc, ba = bisection_method(interval_expression)
             print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format(
                             iterations, round(a, 4), round(b, 4), round(interval_expression(a), 4),
-                            round(interval_expression(b), 4), round(c, 4), round(interval_expression(root), 4), round(b - a, 4)))
+                            round(interval_expression(b), 4), round((a+b)/2, 4), round(interval_expression(root), 4), round(b - a, 4)))
             print(f"The interval where the function changes sign is {find_interval(interval_expression)}")
             print(f"The root of the function is approximately {root}, found in {iterations} iterations")
             print()

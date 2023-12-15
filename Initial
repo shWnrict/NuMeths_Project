@@ -208,19 +208,18 @@ def finals():
             a2x + b2y + c2z = d2
             a3x + b3y + c3z = d3
 
-            Below is an example input for a 3 x 3 matrix
+            Now, try Cramer's Rule with an example for yourself!
+            If you want to solve the following system of equations:
+                        2x + y - z = 1
+                        3x + 2y + 2z = 13
+                        4x - 2y + 3z = 0
+            Below is an example input for this 3 x 3 matrix
                 Enter the number of variables in the system: 3
                 Enter the coefficients of the coefficient matrix (one row at a time):
                 Row 1: 2 1 -1
                 Row 2: 3 2 2
                 Row 3: 4 -2 3
                 Enter the constants of the equation (right-hand side of the system): 1 13 9
-            In this example input, this will solve the following system of equations:
-            2x + y - z = 1
-            3x + 2y + 2z = 13
-            4x - 2y + 3z = 0
-          
-            Now, try Cramer's Rule with an example for yourself!
           """)
 
     while True:

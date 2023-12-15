@@ -19,7 +19,7 @@ print("""
             |______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|
 """)
 
-import numpy as np
+import numpy as np #library for arrays used for matrix and other math expressions
 
 def prelim():
     print("""
@@ -128,7 +128,7 @@ def midterm():
             It is also an open-method.
 
             Now, try Secant Method with an example!
-            Example Input: x**3 + 3*x - 5
+            Example Input: x**2 - x - 1
           """)
     
     while True:
@@ -195,15 +195,82 @@ def midterm():
 
 def finals():
     print("""
-          The subject matter for the Prelim period is about Gauss Jacobi Method.
-          Here is a recap for what Gauss Jacobi method is:
+          The subject matter for the Finals period is about Cramer's Rule.
+          Here is a recap for what Cramer's Rule is:
 
-            It is an iterative algorithm for determining the solutions of a strictly diagonally dominant system of linear equations. 
-            Each diagonal element is solved for, and an approximate value is plugged in. The process is then iterated until it converges.
+            Cramer's Rule is a method for solving a system of linear equations by dividing the values of determinants.
+            It provides a formula for each variable in terms of the determinants of matrices obtained by replacing 
+            one column of the coefficient matrix with the column of constants.
 
-            Now, try Gauss Jacobi Method with an example!
-            Example Input: x**3 + 3*x - 5
+            If D is zero(0), the sytem of equations has no unique solution.
+            Please note: 
+            a1x + b1y + c1z = d1
+            a2x + b2y + c2z = d2
+            a3x + b3y + c3z = d3
+
+            Below is an example input for a 3 x 3 matrix
+                Enter the number of variables in the system: 3
+                Enter the coefficients of the coefficient matrix (one row at a time):
+                Row 1: 2 1 -1
+                Row 2: 3 2 2
+                Row 3: 4 -2 3
+                Enter the constants of the equation (right-hand side of the system): 1 13 9
+            In this example input, this will solve the following system of equations:
+            2x + y - z = 1
+            3x + 2y + 2z = 13
+            4x - 2y + 3z = 0
+          
+            Now, try Cramer's Rule with an example for yourself!
           """)
+
+    while True:
+        try:
+            def cramers_rule(A, b):
+                n = len(b)
+                det_A = np.linalg.det(A)
+
+                if det_A == 0:
+                    raise ValueError("The coefficient matrix is singular, and Cramer's Rule cannot be applied.")
+
+                solutions = []
+                for i in range(n):
+                    Ai = A.copy()
+                    Ai[:, i] = b
+                    det_Ai = np.linalg.det(Ai)
+                    xi = det_Ai / det_A
+                    solutions.append(xi)
+
+                return solutions
+
+            n = int(input("Enter the number of variables in the system: "))
+            A = np.zeros((n, n))
+            b = np.zeros(n)
+
+            print("Enter the coefficients of the coefficient matrix (one row at a time):")
+            for i in range(n):
+                A[i, :] = list(map(float, input(f"Row {i + 1}: ").split()))
+
+            print("Enter the constants of the equation (right-hand side of the system):")
+            b = list(map(float, input().split()))
+
+            solutions = cramers_rule(A, b)
+
+            rounded_solutions = [round(x, 4) for x in solutions]
+            variable_names = ['x', 'y', 'z'][:n]
+
+            print("\nThe solutions are:")
+            for var, sol in zip(variable_names, rounded_solutions):
+                print(f"{var}= {sol}")
+
+            print()
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+        cont = input("Do you wish to continue with more examples? (y/n) ")
+        print()
+        if cont.lower() != 'y':
+            break
 
 def menu():
     while True:
